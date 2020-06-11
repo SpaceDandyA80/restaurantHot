@@ -37,14 +37,14 @@
                 <div class="card-header">
                   <h3 id='current-res'><strong>Current Reservations</strong></h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body tables">
                     <ul id="tablelist" class="list-group">
                         <li class="list-group-item mt-4">
                             <h2>Table #1</h2> 
                             <hr>
-                            <h2></h2>
-                            <h2></h2>
-                            <h2></h2>
+                            <h2 id="table-name"></h2>
+                            <h2 id="table-phone"></h2>
+                            <h2 id="table-email"></h2>
                             <h2></h2>
                         </li>
                     </ul>
@@ -52,17 +52,16 @@
             </div>
             <div class="card mb-4">
                 <div class="card-header">
-                  <h3 id='waitlist'><strong>Waiting List</strong></h3>
+                  <h3><strong>Waiting List</strong></h3>
                 </div>
                 <div class="card-body">
                     <ul id="waitlist" class="list-group">
                         <li class="list-group-item mt-4">
                             <h2>Table #1</h2> 
                             <hr>
-                            <h2></h2>
-                            <h2></h2>
-                            <h2></h2>
-                            <h2></h2>
+                            <h2 id="wait-name"></h2>
+                            <h2 id="wait-phone"></h2>
+                            <h2 id="wait-email"></h2>
                         </li>
                     </ul>
                 </div>
@@ -73,6 +72,35 @@
 
 <script type="text/javascript">
     // when viewres.html loads, then get the data to post to each card
+    function getTableInfo(){
+      $.get("/api/tables", function(data){
+        if(data) {
+          for(let i=0; i<tables.length;i++){
+            $("#table-name").text(`Name: ${data.name}`);
+            $("#table-phone").text(`Phone Number: ${data.phone}`);
+            $("#table-email").text(`Email: ${data.email}`);
+          } 
+        } else {
+          $("#tablelist").hide();
+          $("#tables").append(`<h3>There are no reservations yet! Make your reservation now</h3>`);
+        }
+      })
+    }
+
+    function getWaitlistInfo(){
+
+    }
+
+    function clearTables(){
+      $.post("/api/clear", function(){
+      $("#waitlist").empty();
+      $("#tablelist").empty();
+      });
+    }
+
+    getTableInfo();
+    getWaitlistInfo();
+
 </script>
                     
       
