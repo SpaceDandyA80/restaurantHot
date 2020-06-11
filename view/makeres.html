@@ -36,7 +36,7 @@
             <div class="card">
                 <div class="card-header">Make a Reservation</div>
                     <div class="card-body">
-                        <form role="form">
+                        <form role="form" method="POST">
                             <div class="form-group">
                                 <label for="resName">Name </label>
                                 <input type="text" class="form-control" id="resName">
@@ -60,7 +60,19 @@
 
 <script type="text/javascript">
     // when submit is clicked do post request
-    $(".submit").on("click", function(){
+    $(".submit").on("click", function(event){
+        event.preventDefault();
+        let newReservation = {
+          name: $("#resName").val().trim(),
+          phone: $("#resPhone").val().trim(),
+          email: $("#resEmail").val().trim()
+        };
+
+        $.post("api/tables", newReservation)
+        .then(function(data) {
+          console.log("makeres.html", data);
+          alert("Adding your reservation");
+        })
 
     });
 </script>
