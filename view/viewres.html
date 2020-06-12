@@ -40,7 +40,7 @@
                 <div class="card-body tables">
                     <ul id="tablelist" class="list-group">
                         <li class="list-group-item mt-4">
-                            <h2>Table #1</h2> 
+                            <h2 id="tableNum">Table #1</h2> 
                             <hr>
                             <h2 id="table-name"></h2>
                             <h2 id="table-phone"></h2>
@@ -54,7 +54,7 @@
                 <div class="card-header">
                   <h3><strong>Waiting List</strong></h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body waitlist">
                     <ul id="waitlist" class="list-group">
                         <li class="list-group-item mt-4">
                             <h2>Table #1</h2> 
@@ -76,6 +76,7 @@
       $.get("/api/tables", function(data){
         if(data) {
           for(let i=0; i<tables.length;i++){
+            $("#tableNum").text(`Table #${tables[i]}`)
             $("#table-name").text(`Name: ${data.name}`);
             $("#table-phone").text(`Phone Number: ${data.phone}`);
             $("#table-email").text(`Email: ${data.email}`);
@@ -88,6 +89,18 @@
     }
 
     function getWaitlistInfo(){
+      $.get("/api/waitlist", function(data){
+        if(data){
+          for(let i=0; i<waitList.length;i++){
+            $("#waitlist-name").text(`Name: ${data.name}`);
+            $("#waitlist-phone").text(`Phone Number: ${data.phone}`);
+            $("#waitlist-email").text(`Email: ${data.email}`);
+          }
+        } else {
+          $("#waitlist").hide();
+          $(".waitlist").append(`<h3>There are no tables on the waitlist yet</h3>`);
+        }
+      })
 
     }
 
